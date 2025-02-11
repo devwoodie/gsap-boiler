@@ -9,13 +9,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface FadeInProps extends BaseAnimationProps {
     y?: number;
+    triggerPoint?: string;  // 트리거 위치 추가
 }
 
 export const FadeIn = ({
                            children,
                            duration = 1,
                            delay = 0,
-                           y = 50,
+                           y = 100,
+                           triggerPoint = 'top 80%',  // 기본값 설정
                        }: FadeInProps) => {
     const elementRef = useRef<HTMLDivElement>(null);
 
@@ -26,12 +28,23 @@ export const FadeIn = ({
             gsap.fromTo(
                 elementRef.current,
                 {opacity: 0, y},
-                {opacity: 1, y: 0, duration, delay, ease: 'power2.out'}
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration,
+                    delay,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: elementRef.current,
+                        start: triggerPoint,
+                        toggleActions: 'play none none reverse'  // 스크롤 올릴 때 다시 실행
+                    }
+                },
             );
         });
 
         return () => ctx.revert();
-    }, [duration, delay, y]);
+    }, [duration, delay, y, triggerPoint]);
 
     return <div ref={elementRef}>{children}</div>;
 };

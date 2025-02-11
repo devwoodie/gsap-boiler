@@ -13,7 +13,7 @@ interface ScrollAnimationProps extends BaseAnimationProps {
 
 export const ScrollAnimation = ({
                                     children,
-                                    triggerPoint = 'top 80%',
+                                    triggerPoint = 'top 25%',
                                     duration = 1,
                                     delay = 0,
                                 }: ScrollAnimationProps) => {
